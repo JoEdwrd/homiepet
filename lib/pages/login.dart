@@ -192,7 +192,9 @@ class _LoginPageState extends State<LoginPage> {
                                             margin: const EdgeInsets.fromLTRB(
                                                 0, 0, 0, 15),
                                             child: ElevatedButton(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                Navigator.pushReplacementNamed(context, '/preference');
+                                              },
                                               style: ElevatedButton.styleFrom(
                                                   backgroundColor:
                                                       Colors.orange,
@@ -214,7 +216,9 @@ class _LoginPageState extends State<LoginPage> {
                                             margin: const EdgeInsets.fromLTRB(
                                                 0, 0, 0, 20),
                                             child: OutlinedButton.icon(
-                                              onPressed: () {},
+                                              onPressed: () {
+                                                      // Navigator.pop(context);
+                                              },
                                               label: const Text(
                                                   "Continue with Google"),
                                               icon: Image.asset(

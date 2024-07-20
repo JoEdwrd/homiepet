@@ -184,7 +184,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                               margin: const EdgeInsets.fromLTRB(
                                                   0, 15, 0, 15),
                                               child: ElevatedButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+
+                                                },
                                                 style: ElevatedButton.styleFrom(
                                                     backgroundColor:
                                                         Colors.orange,
