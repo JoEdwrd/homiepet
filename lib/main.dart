@@ -3,16 +3,18 @@ import 'pages/login.dart';
 import 'pages/register.dart';
 import 'pages/preference.dart';
 import 'pages/splash.dart';
+import 'pages/map.dart';
 // void main() {
 //   runApp(const RegisterPage());
 // }
 void main()=>runApp(MaterialApp(
-  initialRoute: '/splash',
+  initialRoute: '/map',
   routes: {
     '/splash':(context)=>Splash(),
     '/preference':(context)=>Preference(),
     '/login':(context)=>LoginPage(),
-    '/register':(context)=>RegisterPage()
+    '/register':(context)=>RegisterPage(),
+    '/map':(context)=>Map()
   },
 ));
 
