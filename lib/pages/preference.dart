@@ -34,6 +34,7 @@ class _PreferenceState extends State<Preference> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.orange[400],
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
