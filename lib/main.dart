@@ -8,7 +8,7 @@ import 'pages/map.dart';
 //   runApp(const RegisterPage());
 // }
 void main()=>runApp(MaterialApp(
-  initialRoute: '/map',
+  initialRoute: '/splash',
   routes: {
     '/splash':(context)=>Splash(),
     '/preference':(context)=>Preference(),
