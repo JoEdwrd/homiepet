@@ -5,13 +5,13 @@ import 'pages/preference.dart';
 import 'pages/splash.dart';
 import 'pages/map.dart';
 import 'pages/profile.dart';
-// void main() {
-//   runApp(const RegisterPage());
-// }
+import 'pages/edit_profile.dart';
+import 'pages/change_password.dart';
+
 void main() => runApp(
   MaterialApp(
     theme: ThemeData(fontFamily: 'SanFrancisco'),
-    initialRoute: '/profile',
+    initialRoute: '/change_password',
     routes: {
       '/splash' : (context) => Splash(),
       '/preference' : (context) => Preference(),
@@ -19,6 +19,8 @@ void main() => runApp(
       '/register' : (context) => RegisterPage(),
       '/map' : (context) => Map(),
       '/profile' : (context) => ProfilePage(),
+      '/edit_profile' : (context) => EditProfilePage(),
+      '/change_password' : (context) => ChangePasswordPage()
     },
   )
 );
