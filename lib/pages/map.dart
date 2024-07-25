@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:homiepet/component/Locations.dart';
 
 class Map extends StatefulWidget {
-  const Map({super.key});
+  final Function(Locations) onShareLocation; // Add this line
+
+  const Map({Key? key, required this.onShareLocation}) : super(key: key);
 
   @override
   State<Map> createState() => _MapState();
@@ -77,7 +79,7 @@ class _MapState extends State<Map> {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/preference');
+                Navigator.pop(context, locations.firstWhere((location) => location.image == _mapImage));
               },
               child: Text(
                 "Share",
