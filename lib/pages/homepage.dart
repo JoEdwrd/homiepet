@@ -10,6 +10,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TCardController _controller = TCardController();
   int _selectedIndex = 1;
+  double _cardHeightPercentage = 0.7; // Initial TCard height as a percentage of screen height
+  bool _isDetailVisible = false; // Track if detail view is visible
+
+  void _toggleCardPosition() {
+    setState(() {
+      _isDetailVisible = !_isDetailVisible;
+      _cardHeightPercentage = _isDetailVisible ? 0.4 : 0.7;
+    });
+  }
 
   List<Map<String, dynamic>> pets = [
     {
@@ -138,18 +147,19 @@ class _HomePageState extends State<HomePage> {
     }).toList();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            SizedBox(width: 40,),
             Image.asset(
               'assets/appbarlogo.png',
               fit: BoxFit.contain,
               height: 50,
             ),
-            Spacer(),
             IconButton(
               icon: Icon(Icons.tune, color: Colors.black),
               onPressed: () {
@@ -159,31 +169,42 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Center(
-        child: TCard(
-          controller: _controller,
-          cards: cards,
-          size: Size(
-            MediaQuery.of(context).size.width * 0.9,
-            MediaQuery.of(context).size.height * 0.7,
+      body: Stack(
+        children: [
+          AnimatedPositioned(
+            duration: Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            top: 0,
+            left: MediaQuery.of(context).size.width * 0.05,
+            right: MediaQuery.of(context).size.width * 0.05,
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              height: MediaQuery.of(context).size.height * _cardHeightPercentage,
+              child: TCard(
+                controller: _controller,
+                cards: cards,
+                onForward: (index, info) {
+                  if (info.direction == SwipDirection.Right) {
+                    print('Card $index liked');
+                  } else {
+                    print('Card $index reject');
+                  }
+                },
+                onBack: (index, info) {
+                  print('Card $index swiped back');
+                },
+                onEnd: () {
+                  print('End of cards');
+                },
+              ),
+            ),
           ),
-          onForward: (index, info) {
-            if(info.direction==SwipDirection.Right){
-              print('Card $index liked');
-            }
-            else{
-              print('Card $index reject');
-            }
-          },
-          onBack: (index, info) {
-            print('Card $index swiped back');
-          },
-          onEnd: () {
-            print('End of cards');
-          },
-        ),
+        ],
       ),
+
       floatingActionButton: Padding(
+
         padding: const EdgeInsets.symmetric(horizontal: 80.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -200,17 +221,23 @@ class _HomePageState extends State<HomePage> {
               ),
               shape: CircleBorder(),
             ),
-            FloatingActionButton(
-              onPressed: () {
-                // Placeholder for detail action
-                print('Detail button pressed');
-              },
-              backgroundColor: Colors.blue,
-              child: Icon(
-                Icons.info,
-                color: Colors.white,
+            Container(
+              height: 75,
+              width: 75,
+              child: FittedBox(
+                child: FloatingActionButton(
+                
+                  onPressed: () {
+                    _toggleCardPosition();
+                  },
+                  backgroundColor: Colors.blue,
+                  child: Icon(
+                    Icons.info,
+                    color: Colors.white,
+                  ),
+                  shape: CircleBorder(),
+                ),
               ),
-              shape: CircleBorder(),
             ),
             FloatingActionButton(
               onPressed: () {
