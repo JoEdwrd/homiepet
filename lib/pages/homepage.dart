@@ -168,7 +168,12 @@ class _HomePageState extends State<HomePage> {
             MediaQuery.of(context).size.height * 0.7,
           ),
           onForward: (index, info) {
-            print('Card $index swiped');
+            if(info.direction==SwipDirection.Right){
+              print('Card $index liked');
+            }
+            else{
+              print('Card $index reject');
+            }
           },
           onBack: (index, info) {
             print('Card $index swiped back');
@@ -185,13 +190,13 @@ class _HomePageState extends State<HomePage> {
           children: [
             FloatingActionButton(
               onPressed: () {
-                _controller.back();
-                print('Card swiped back');
+                _controller.forward(direction: SwipDirection.Left);
+                print('Card reject');
               },
               backgroundColor: Colors.red,
               child: Icon(
-                  Icons.close,
-                  color: Colors.white,
+                Icons.close,
+                color: Colors.white,
               ),
               shape: CircleBorder(),
             ),
@@ -202,20 +207,20 @@ class _HomePageState extends State<HomePage> {
               },
               backgroundColor: Colors.blue,
               child: Icon(
-                  Icons.info,
-                  color: Colors.white,
+                Icons.info,
+                color: Colors.white,
               ),
               shape: CircleBorder(),
             ),
             FloatingActionButton(
               onPressed: () {
-                _controller.forward();
-                print('Card swiped forward');
+                _controller.forward(direction: SwipDirection.Right);
+                print('Card liked');
               },
               backgroundColor: Colors.orange,
               child: Icon(
-                  Icons.favorite,
-                  color: Colors.white,
+                Icons.favorite,
+                color: Colors.white,
               ),
               shape: CircleBorder(),
             ),

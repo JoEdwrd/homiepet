@@ -7,11 +7,12 @@ import 'pages/map.dart';
 import 'pages/profile.dart';
 import 'pages/edit_profile.dart';
 import 'pages/change_password.dart';
+import 'pages/homepage.dart';
 
 void main() => runApp(
   MaterialApp(
     theme: ThemeData(fontFamily: 'SanFrancisco'),
-    initialRoute: '/change_password',
+    initialRoute: '/splash',
     routes: {
       '/splash' : (context) => Splash(),
       '/preference' : (context) => Preference(),
@@ -20,7 +21,10 @@ void main() => runApp(
       '/map' : (context) => Map(),
       '/profile' : (context) => ProfilePage(),
       '/edit_profile' : (context) => EditProfilePage(),
-      '/change_password' : (context) => ChangePasswordPage()
+      '/change_password' : (context) => ChangePasswordPage(),
+      '/homepage' : (context) => HomePage(),
+
+
     },
   )
 );
