@@ -13,7 +13,7 @@ class _HomePageState extends State<HomePage> {
   TCardController _controller = TCardController();
   int _selectedIndex = 1;
   bool _isExpanded = true;
-  double _cardHeightPercentage = 0.7; // Initial TCard height as a percentage of screen height
+  double _cardHeightPercentage = 0.75; // Initial TCard height as a percentage of screen height
 
   void _toggleCardPosition() {
     setState(() {
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
       'looking_for': "A loving family who enjoys outdoor activities."
     },
     {
-      'image': 'assets/pett.png',
+      'image': 'assets/pet2.png',
       'name': 'Buddy',
       'age': 4,
       'distance': '3 KM away from you',
