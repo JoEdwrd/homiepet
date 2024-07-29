@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:homiepet/pages/add_pet.dart';
+import 'package:homiepet/pages/detail_pet.dart';
+import 'package:homiepet/pages/edit_pet.dart';
+import 'package:homiepet/pages/my_pets.dart';
+import 'component/Pet.dart';
 import 'package:homiepet/pages/conversation.dart';
 import 'pages/login.dart';
 import 'pages/register.dart';
@@ -14,7 +19,7 @@ import 'pages/conversation.dart';
 void main() => runApp(
   MaterialApp(
     theme: ThemeData(fontFamily: 'SanFrancisco'),
-    initialRoute: '/splash',
+    initialRoute: '/mypets',
     routes: {
       '/splash' : (context) => Splash(),
       '/preference' : (context) => Preference(),
@@ -32,6 +37,22 @@ void main() => runApp(
       '/conversation': (context) => Conversation(),
 
 
+      '/mypets' : (context) => MyPetsPage(),
+      '/addPet' : (context) => AddPetPage(),
+    },
+    onGenerateRoute: (settings) {
+      if (settings.name == '/detailPet') {
+        final Pet petData = settings.arguments as Pet;
+        return MaterialPageRoute(
+          builder: (context) => DetailPetPage(petData: petData),
+        );
+      }else if(settings.name == '/editPet'){
+        final Pet petData = settings.arguments as Pet;
+        return MaterialPageRoute(
+          builder: (context) => EditPetPage(petData: petData),
+        );
+      }
+      return null;
     },
   )
 );
