@@ -101,7 +101,7 @@ class _PreferenceState extends State<Preference> {
             SizedBox(width: 10),
             FloatingActionButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushNamed(context, '/homepage');
               },
               child: Icon(
                 Icons.arrow_forward_ios,
