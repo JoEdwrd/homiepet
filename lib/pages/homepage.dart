@@ -98,13 +98,13 @@ class _HomePageState extends State<HomePage> {
 
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/profile');
+        Navigator.pushNamed(context, '/conversation');
         break;
       case 1:
         Navigator.pushNamed(context, '/homepage');
         break;
       case 2:
-        Navigator.pushNamed(context, '/preference');
+        Navigator.pushNamed(context, '/profile');
         break;
     }
   }
