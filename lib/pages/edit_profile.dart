@@ -19,6 +19,18 @@ class _EditProfilePageState extends State<EditProfilePage> {
     setState(() {
       _selectedIndex = index;
     });
+
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, '/conversation');
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/homepage');
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/profile');
+        break;
+    }
   }
 
   Future<void> _pickImage() async {
@@ -42,9 +54,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
       print("Permission denied");
     }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -174,10 +183,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                               ],
                             ),
                             SizedBox(height: 30),
-                            editProfileDataRow('Name', 'John Doe'),
-                            editProfileDataRow('Email', 'johndoe@example.com'),
-                            editProfileDataRow('Phone', '(123) 456-7890'),
-                            editProfileDataRow('Password', '*****'),
+                            editProfileDataRow('Name', 'John Doe', onTap: () {}),
+                            editProfileDataRow('Email', 'johndoe@example.com', onTap: () {}),
+                            editProfileDataRow('Phone', '(123) 456-7890', onTap: () {}),
+                            editProfileDataRow('Password', '*****', onTap: () {
+                              Navigator.pushNamed(context, '/change_password');
+                            }),
                           ],
                         ),
                       ),
@@ -186,7 +197,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   SizedBox(height: 30), // Space between the container and the log out button
                   ElevatedButton(
                     onPressed: () {
-                      // Add your onPressed functionality here
+                      Navigator.pushNamed(context, '/profile');
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(MediaQuery.of(context).size.width * 0.3, 40), // Button width and height
@@ -267,7 +278,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   }
 }
 
-Widget editProfileDataRow(String attribute, String value) {
+Widget editProfileDataRow(String attribute, String value, {VoidCallback? onTap}) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -290,9 +301,7 @@ Widget editProfileDataRow(String attribute, String value) {
                   style: TextStyle(fontSize: 14),
                 ),
                 IconButton(
-                  onPressed: () {
-                    // Add your onPressed functionality here
-                  },
+                  onPressed: onTap,
                   icon: Icon(LineAwesomeIcons.pen_solid),
                   color: Colors.black,
                   iconSize: 15, // Icon size
@@ -315,3 +324,4 @@ Widget editProfileDataRow(String attribute, String value) {
     ],
   );
 }
+
