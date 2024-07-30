@@ -18,7 +18,7 @@ import 'pages/conversation.dart';
 void main() => runApp(
   MaterialApp(
     theme: ThemeData(fontFamily: 'SanFrancisco'),
-    initialRoute: '/profile',
+    initialRoute: '/splash',
     routes: {
       '/splash' : (context) => Splash(),
       '/preference' : (context) => Preference(),
