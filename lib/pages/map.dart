@@ -60,14 +60,23 @@ class _MapState extends State<Map> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Row(
               children: [
-                Icon(Icons.close),
-                SizedBox(width: 40),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(
+                      context,
+                      locations.firstWhere((location) => location.image == _mapImage),
+                    );
+                  },
+                  icon: Icon(Icons.close), // Corrected parameter name
+                ),
+                SizedBox(width: 40), // The comma should be here, outside the IconButton
               ],
             ),
             Text(
