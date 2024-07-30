@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tcard/tcard.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
+import 'package:homiepet/pages/petdetilpage.dart';  // Import the PetDetailPage
+
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -10,6 +12,15 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TCardController _controller = TCardController();
   int _selectedIndex = 1;
+  bool _isExpanded = true;
+  double _cardHeightPercentage = 0.75; // Initial TCard height as a percentage of screen height
+
+  void _toggleCardPosition() {
+    setState(() {
+      _isExpanded = !_isExpanded;
+      _cardHeightPercentage = _isExpanded ? 0.7 : 0.4;
+    });
+  }
 
   List<Map<String, dynamic>> pets = [
     {
@@ -18,13 +29,25 @@ class _HomePageState extends State<HomePage> {
       'age': 5,
       'distance': '2 KM away from you',
       'description': 'Woof, I\'m a furry ray of sunshine...',
+      'location': "Pakuan Street Number 5, Sumur Batu, Babakan Madang, Bogor, East Java",
+      'dc1': "Friendly",
+      'dc2': "Loyal",
+      'breed':"Golden Retriever",
+      'aboutme': "I'm Ziven, your next best friend! I love long walks and belly rubs.",
+      'looking_for': "A loving family who enjoys outdoor activities."
     },
     {
-      'image': 'assets/pett.png',
+      'image': 'assets/pet2.png',
       'name': 'Buddy',
       'age': 4,
       'distance': '3 KM away from you',
       'description': 'Loving, playful, and always ready for a new adventure!',
+      'location': "Pakuan Street Number 5, Sumur Batu, Babakan Madang, Bogor, East Java",
+      'dc1': "Playful",
+      'dc2': "Clingy",
+      'breed':"British Shorthair",
+      'aboutme': "Hi, I'm Buddy! I thrive on playtime and affection. I'm always up for a game or a cuddle.",
+      'looking_for': "Someone who can match my energy and enjoys interactive play."
     },
     {
       'image': 'assets/pet3.png',
@@ -32,6 +55,12 @@ class _HomePageState extends State<HomePage> {
       'age': 3,
       'distance': '1 KM away from you',
       'description': 'Energetic and loves to play fetch!',
+      'location': "Gading Raya Street, Gading Serpong, Tangerang, Banten",
+      'dc1': "Energetic",
+      'dc2': "Friendly",
+      'breed':"Pomeranian",
+      'aboutme': "I'm Charlie, and I'm always ready for a game of fetch! Let's have some fun together.",
+      'looking_for': "An active person who enjoys outdoor activities and playtime."
     },
     {
       'image': 'assets/pet4.png',
@@ -39,6 +68,12 @@ class _HomePageState extends State<HomePage> {
       'age': 6,
       'distance': '4 KM away from you',
       'description': 'A gentle giant who loves cuddles.',
+      'location': "Jl. Kemuning, Kebayoran Baru, Jakarta Selatan",
+      'dc1': "Gentle",
+      'dc2': "Affectionate",
+      'breed':"Golden Retriever",
+      'aboutme': "I'm Max, a big softie who loves to snuggle up. I'm the perfect companion for a cozy evening.",
+      'looking_for': "A calm and loving home where I can get plenty of cuddles."
     },
     {
       'image': 'assets/pet5.png',
@@ -46,8 +81,15 @@ class _HomePageState extends State<HomePage> {
       'age': 2,
       'distance': '5 KM away from you',
       'description': 'Curious and always exploring new places.',
+      'location': "Jl. Raya Bogor, Cibinong, Bogor, West Java",
+      'dc1': "Curious",
+      'dc2': "Adventurous",
+      'breed':"Persia",
+      'aboutme': "Hi, I'm Car! I love exploring and discovering new things. If you're adventurous, we'll get along great.",
+      'looking_for': "An adventurous person who loves exploring new places and activities."
     },
   ];
+
 
   void _onIconTapped(int index) {
     setState(() {
@@ -56,13 +98,13 @@ class _HomePageState extends State<HomePage> {
 
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/profile');
+        Navigator.pushNamed(context, '/conversation');
         break;
       case 1:
         Navigator.pushNamed(context, '/homepage');
         break;
       case 2:
-        Navigator.pushNamed(context, '/preference');
+        Navigator.pushNamed(context, '/profile');
         break;
     }
   }
@@ -105,7 +147,7 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '${pet['name']}, ${pet['age']}',
+                    (_isExpanded) ? '${pet['name']}, ${pet['age']}' : "aku",
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 24,
@@ -138,51 +180,62 @@ class _HomePageState extends State<HomePage> {
     }).toList();
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            SizedBox(width: 40,),
             Image.asset(
               'assets/appbarlogo.png',
               fit: BoxFit.contain,
               height: 50,
             ),
-            Spacer(),
             IconButton(
               icon: Icon(Icons.tune, color: Colors.black),
               onPressed: () {
-                Navigator.pushNamed(context, '/preference');
+                Navigator.pop(context);
               },
             ),
           ],
         ),
       ),
-      body: Center(
-        child: TCard(
-          controller: _controller,
-          cards: cards,
-          size: Size(
-            MediaQuery.of(context).size.width * 0.9,
-            MediaQuery.of(context).size.height * 0.7,
+      body: Stack(
+        children: [
+          AnimatedPositioned(
+            duration: Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            top: 0,
+            left: MediaQuery.of(context).size.width * 0.05,
+            right: MediaQuery.of(context).size.width * 0.05,
+            child: AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+              height: MediaQuery.of(context).size.height * _cardHeightPercentage,
+              child: TCard(
+                controller: _controller,
+                cards: cards,
+                onForward: (index, info) {
+                  if (info.direction == SwipDirection.Right) {
+                    print('Card $index liked');
+                  } else {
+                    print('Card $index rejected');
+                  }
+                },
+                onBack: (index, info) {
+                  print('Card $index swiped back');
+                },
+                onEnd: () {
+                  print('End of cards');
+                },
+              ),
+            ),
           ),
-          onForward: (index, info) {
-            if(info.direction==SwipDirection.Right){
-              print('Card $index liked');
-            }
-            else{
-              print('Card $index reject');
-            }
-          },
-          onBack: (index, info) {
-            print('Card $index swiped back');
-          },
-          onEnd: () {
-            print('End of cards');
-          },
-        ),
+        ],
       ),
+
       floatingActionButton: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 80.0),
         child: Row(
@@ -191,7 +244,7 @@ class _HomePageState extends State<HomePage> {
             FloatingActionButton(
               onPressed: () {
                 _controller.forward(direction: SwipDirection.Left);
-                print('Card reject');
+                print('Card rejected');
               },
               backgroundColor: Colors.red,
               child: Icon(
@@ -200,17 +253,28 @@ class _HomePageState extends State<HomePage> {
               ),
               shape: CircleBorder(),
             ),
-            FloatingActionButton(
-              onPressed: () {
-                // Placeholder for detail action
-                print('Detail button pressed');
-              },
-              backgroundColor: Colors.blue,
-              child: Icon(
-                Icons.info,
-                color: Colors.white,
+            Container(
+              height: 75,
+              width: 75,
+              child: FittedBox(
+                child: FloatingActionButton(
+                  onPressed: () {
+                    final pet = pets[_controller.index];
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PetDetailPage(pet: pet),
+                      ),
+                    );
+                  },
+                  backgroundColor: Colors.blue,
+                  child: Icon(
+                    Icons.info,
+                    color: Colors.white,
+                  ),
+                  shape: CircleBorder(),
+                ),
               ),
-              shape: CircleBorder(),
             ),
             FloatingActionButton(
               onPressed: () {
