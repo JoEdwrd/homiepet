@@ -74,7 +74,7 @@ class _MapState extends State<Map> {
                       locations.firstWhere((location) => location.image == _mapImage),
                     );
                   },
-                  icon: Icon(Icons.close), // Corrected parameter name
+                  icon: Icon(Icons.close),
                 ),
                 SizedBox(width: 40), // The comma should be here, outside the IconButton
               ],
