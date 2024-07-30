@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tcard/tcard.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'dart:math'; // Import the dart:math package
-
-import 'package:homiepet/pages/petdetilpage.dart';  // Import the PetDetailPage
+import 'dart:math';
+import 'package:homiepet/pages/petdetilpage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -202,7 +201,7 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               icon: Icon(Icons.tune, color: Colors.black),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context,'/preference');
               },
             ),
           ],
