@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tcard/tcard.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'dart:math'; // Import the dart:math package
 
 import 'package:homiepet/pages/petdetilpage.dart';  // Import the PetDetailPage
 
@@ -90,6 +91,11 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    pets.shuffle(); // Shuffle the pets list
+  }
 
   void _onIconTapped(int index) {
     setState(() {
@@ -309,7 +315,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               child: IconButton(
-                onPressed: () => _onIconTapped(0),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/conversation');
+                },
                 icon: Icon(LineAwesomeIcons.sms_solid),
                 color: _selectedIndex == 0 ? Color(0xffB51313) : Colors.grey,
                 iconSize: 40,
@@ -324,7 +332,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               child: IconButton(
-                onPressed: () => _onIconTapped(1),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/homepage');
+                },
                 icon: Icon(LineAwesomeIcons.paw_solid),
                 color: _selectedIndex == 1 ? Color(0xffB51313) : Colors.grey,
                 iconSize: 40,
