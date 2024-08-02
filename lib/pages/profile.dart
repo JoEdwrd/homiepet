@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'globals.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -15,6 +16,18 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       _selectedIndex = index;
     });
+
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, '/conversation');
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/homepage');
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/profile');
+        break;
+    }
   }
 
   @override
@@ -36,15 +49,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 title: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Padding(
-                    //   padding: const EdgeInsets.only(left: 1, top: 10), // Add padding to the left
-                    //   child: IconButton(
-                    //     onPressed: () {
-                    //       // Add your onPressed functionality here
-                    //     },
-                    //     icon: const Icon(LineAwesomeIcons.angle_left_solid),
-                    //   ),
-                    // ),
                     Expanded(
                       child: Center(
                         child: Image.asset(
@@ -53,15 +57,6 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(right: 1, top: 10), // Add padding to the right
-                    //   child: IconButton(
-                    //     onPressed: () {
-                    //       // Add your onPressed functionality here
-                    //     },
-                    //     icon: const Icon(LineAwesomeIcons.sliders_h_solid),
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -84,9 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   child: CircleAvatar(
                     radius: 45, // Adjust radius to fit within the container
-                    backgroundImage: AssetImage(
-                      'assets/profile_picture.jpg',
-                    ),
+                    backgroundImage: AssetImage(profileImage),
                   ),
                 ),
               ),
@@ -138,7 +131,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Spacer(), // Pushes the icon to the far right
                                 IconButton(
                                   onPressed: () {
-                                    // Add your onPressed functionality here
+                                    Navigator.pushNamed(context, '/edit_profile');
                                   },
                                   icon: Icon(LineAwesomeIcons.edit),
                                   color: Colors.black,
@@ -159,7 +152,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         left: 20, // Adjust this value as needed
                         child: ElevatedButton(
                           onPressed: () {
-                            // Add your onPressed functionality here
+                            Navigator.pushNamed(context, '/mypets');
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white, // Button background color
@@ -173,27 +166,15 @@ class _ProfilePageState extends State<ProfilePage> {
                           child: Text('My Pets'),
                         ),
                       ),
-                      // Positioned(
-                      //   bottom: 15, // Adjust this value as needed
-                      //   right: 18, // Adjust this value as needed
-                      //   child: TextButton(
-                      //     onPressed: () {
-                      //       // Add your onPressed functionality here
-                      //     },
-                      //     child: Text(
-                      //       'Privacy Policy',
-                      //       style: TextStyle(
-                      //         color: Colors.black, // Link color
-                      //       ),
-                      //     ),
-                      //   ),
-                      // ),
                     ],
                   ),
                   SizedBox(height: 30), // Space between the container and the log out button
                   ElevatedButton(
                     onPressed: () {
-                      // Add your onPressed functionality here
+                      Navigator.pushNamed(context, '/login');
+                      setState(() {
+                        profileImage = 'assets/user_temp.jpg'; // Update the global variable
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(MediaQuery.of(context).size.width * 0.8, 40), // Button width and height
@@ -216,18 +197,15 @@ class _ProfilePageState extends State<ProfilePage> {
             padding: EdgeInsets.symmetric(vertical: 15),
             decoration: BoxDecoration(
               color: Colors.white,
-              // border: Border(
-              //   top: BorderSide(color: Colors.black.withOpacity(0.1), width: 1),
-              // ),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                   decoration: BoxDecoration(
-                    border: Border(
-                      bottom: _selectedIndex == 0 ? BorderSide(color: Color(0xffB51313), width: 2) : BorderSide(color: Colors.transparent),
-                    )
+                      border: Border(
+                        bottom: _selectedIndex == 0 ? BorderSide(color: Color(0xffB51313), width: 2) : BorderSide(color: Colors.transparent),
+                      )
                   ),
                   child: IconButton(
                     onPressed: () => _onIconTapped(0),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tcard/tcard.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-
-import 'package:homiepet/pages/petdetilpage.dart';  // Import the PetDetailPage
+import 'dart:math';
+import 'package:homiepet/pages/petdetilpage.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -90,6 +90,11 @@ class _HomePageState extends State<HomePage> {
     },
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    pets.shuffle(); // Shuffle the pets list
+  }
 
   void _onIconTapped(int index) {
     setState(() {
@@ -98,13 +103,13 @@ class _HomePageState extends State<HomePage> {
 
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/profile');
+        Navigator.pushNamed(context, '/conversation');
         break;
       case 1:
         Navigator.pushNamed(context, '/homepage');
         break;
       case 2:
-        Navigator.pushNamed(context, '/preference');
+        Navigator.pushNamed(context, '/profile');
         break;
     }
   }
@@ -196,7 +201,7 @@ class _HomePageState extends State<HomePage> {
             IconButton(
               icon: Icon(Icons.tune, color: Colors.black),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.pushNamed(context,'/preference');
               },
             ),
           ],
@@ -309,7 +314,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               child: IconButton(
-                onPressed: () => _onIconTapped(0),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/conversation');
+                },
                 icon: Icon(LineAwesomeIcons.sms_solid),
                 color: _selectedIndex == 0 ? Color(0xffB51313) : Colors.grey,
                 iconSize: 40,
@@ -324,7 +331,9 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               child: IconButton(
-                onPressed: () => _onIconTapped(1),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/homepage');
+                },
                 icon: Icon(LineAwesomeIcons.paw_solid),
                 color: _selectedIndex == 1 ? Color(0xffB51313) : Colors.grey,
                 iconSize: 40,

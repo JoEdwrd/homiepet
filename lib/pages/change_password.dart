@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'globals.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -15,6 +16,18 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
     setState(() {
       _selectedIndex = index;
     });
+
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, '/conversation');
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/homepage');
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/profile');
+        break;
+    }
   }
 
   @override
@@ -66,9 +79,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   ),
                   child: CircleAvatar(
                     radius: 45, // Adjust radius to fit within the container
-                    backgroundImage: AssetImage(
-                      'assets/profile_picture.jpg',
-                    ),
+                    backgroundImage: AssetImage(profileImage),
                   ),
                 ),
               ),
@@ -131,7 +142,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   SizedBox(height: 30), // Space between the container and the log out button
                   ElevatedButton(
                     onPressed: () {
-                      // Add your onPressed functionality here
+                      Navigator.pushNamed(context, '/profile');
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(MediaQuery.of(context).size.width * 0.3, 40), // Button width and height

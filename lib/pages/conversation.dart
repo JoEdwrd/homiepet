@@ -47,11 +47,24 @@ class _Conversation extends State<Conversation> {
     setState(() {
       _selectedIndex = index;
     });
+
+    switch (index) {
+      case 0:
+        Navigator.pushNamed(context, '/conversation');
+        break;
+      case 1:
+        Navigator.pushNamed(context, '/homepage');
+        break;
+      case 2:
+        Navigator.pushNamed(context, '/profile');
+        break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Center(

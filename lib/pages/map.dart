@@ -60,14 +60,20 @@ class _MapState extends State<Map> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         elevation: 0,
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Row(
               children: [
-                Icon(Icons.close),
-                SizedBox(width: 40),
+                IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.close),
+                ),
+                SizedBox(width: 40), // The comma should be here, outside the IconButton
               ],
             ),
             Text(
@@ -93,44 +99,46 @@ class _MapState extends State<Map> {
           ],
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Center(
-            child: Image.asset(
-              'assets/$_mapImage',
-              fit: BoxFit.contain,
-              height: 390,
-            ),
-          ),
-          SizedBox(height: 20),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.grey[100], // Set the background color to gray
-                borderRadius: BorderRadius.circular(10), // Set the border radius
+      body: SingleChildScrollView( // Added SingleChildScrollView
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Center(
+              child: Image.asset(
+                'assets/$_mapImage',
+                fit: BoxFit.contain,
+                height: 390,
               ),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: 'Search',
-                  hintStyle: TextStyle(color: Colors.grey[400]),
-                  border: InputBorder.none, // Remove the border
-                  prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
-                  contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16), // Adjust padding to center text
+            ),
+            SizedBox(height: 20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[100], // Set the background color to gray
+                  borderRadius: BorderRadius.circular(10), // Set the border radius
                 ),
-                onChanged: (query) {
-                  setState(() {
-                    _searchQuery = query;
-                  });
-                },
+                child: TextField(
+                  controller: _searchController,
+                  decoration: InputDecoration(
+                    hintText: 'Search',
+                    hintStyle: TextStyle(color: Colors.grey[400]),
+                    border: InputBorder.none, // Remove the border
+                    prefixIcon: Icon(Icons.search, color: Colors.grey[400]),
+                    contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 16), // Adjust padding to center text
+                  ),
+                  onChanged: (query) {
+                    setState(() {
+                      _searchQuery = query;
+                    });
+                  },
+                ),
               ),
             ),
-          ),
-          SizedBox(height: 10),
-          Expanded(
-            child: ListView.builder(
+            SizedBox(height: 10),
+            ListView.builder(
+              shrinkWrap: true, // Added this line to prevent overflow
+              physics: NeverScrollableScrollPhysics(), // Added this line to prevent inner scrolling
               itemCount: filteredLocations.length,
               itemBuilder: (context, index) {
                 return Padding(
@@ -147,8 +155,8 @@ class _MapState extends State<Map> {
                 );
               },
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
