@@ -30,6 +30,7 @@ final List<String> characters = [
 ];
 
 class _EditPetPageState extends State<EditPetPage> {
+  late String pathImage;
   late Pet petData;
 
   // Keeping track of selected preferences
@@ -43,7 +44,6 @@ class _EditPetPageState extends State<EditPetPage> {
   final TextEditingController aboutMeInput = TextEditingController();
   final TextEditingController lookingForInput = TextEditingController();
 
-  // String? _imagePath;
 
   @override
   void initState() {
@@ -52,6 +52,7 @@ class _EditPetPageState extends State<EditPetPage> {
     petData = widget.petData;
 
     // Prepopulate input fields with existing pet details
+    pathImage = petData.pathImage;
     nameInput.text = petData.name;
     ageInput.text = petData.age.toString();
     aboutMeInput.text = petData.aboutMe;
@@ -62,16 +63,70 @@ class _EditPetPageState extends State<EditPetPage> {
     // _imagePath = petData.pathImage;
   }
 
-  // Future<void> _pickImage() async {
-  //   final picker = ImagePicker();
-  //   final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-  //
-  //   if (pickedFile != null) {
-  //     setState(() {
-  //       _imagePath = pickedFile.path;
-  //     });
-  //   }
-  // }
+  void _showImagePicker() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select your pet Picture'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      _buildImageOption('assets/chihuahaPet.png'),
+                      Spacer(),
+                      _buildImageOption('assets/bulldogPet.png'),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      _buildImageOption('assets/dogPet.png'),
+                      Spacer(),
+                      _buildImageOption('assets/dogPet2.png'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildImageOption(String imagePath) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          pathImage = imagePath; // Update the global variable
+        });
+        Navigator.of(context).pop();
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Image.asset(
+          imagePath,
+          width: 90,
+          height: 90,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,17 +207,22 @@ class _EditPetPageState extends State<EditPetPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: getDeviceWidth * 0.4,
-                            height: getDeviceWidth * 0.438,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.grey[350],
-                                image: DecorationImage(
-                                  image: AssetImage(petData.pathImage),
-                                  fit: BoxFit.cover,
-                                )
+                          InkWell(
+                            child: Container(
+                              width: getDeviceWidth * 0.4,
+                              height: getDeviceWidth * 0.438,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.grey[350],
+                                  image: DecorationImage(
+                                    image: AssetImage(pathImage),
+                                    fit: BoxFit.cover,
+                                  )
+                              ),
                             ),
+                            onTap: (){
+                              _showImagePicker(); // Correct method call
+                            },
                           ),
                           const SizedBox(height: 10,),
                         ],
@@ -203,7 +263,7 @@ class _EditPetPageState extends State<EditPetPage> {
                           if (index != -1) {
                             // Update the existing pet
                             Pet.petDataList[index] = Pet(
-                              pathImage: petData.pathImage,
+                              pathImage: pathImage,
                               aboutMe: aboutMeInput.text,
                               age: ageInput.text,
                               animal: selectedAnimals.first,

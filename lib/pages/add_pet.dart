@@ -34,6 +34,7 @@ final List<String> characters = [
 
 class _AddPetPageState extends State<AddPetPage> {
 
+  late String pathImage;
   // Keeping track of selected preferences
   final Set<String> selectedPreferences = {};
   final Set<String> selectedAnimals = {};
@@ -44,6 +45,78 @@ class _AddPetPageState extends State<AddPetPage> {
   final TextEditingController ageInput = TextEditingController();
   final TextEditingController aboutMeInput = TextEditingController();
   final TextEditingController lookingForInput = TextEditingController();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    pathImage = '';
+  }
+
+  void _showImagePicker() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select your pet Picture'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      _buildImageOption('assets/chihuahaPet.png'),
+                      Spacer(),
+                      _buildImageOption('assets/bulldogPet.png'),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      _buildImageOption('assets/dogPet.png'),
+                      Spacer(),
+                      _buildImageOption('assets/dogPet2.png'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildImageOption(String imagePath) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          pathImage = imagePath; // Update the global variable
+        });
+        Navigator.of(context).pop();
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Image.asset(
+          imagePath,
+          width: 90,
+          height: 90,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -128,18 +201,34 @@ class _AddPetPageState extends State<AddPetPage> {
                        Column(
                          crossAxisAlignment: CrossAxisAlignment.start,
                          children: [
-                           Container(
-                             width: getDeviceWidth*0.4,
-                             height: getDeviceWidth*0.43,
-                             decoration: BoxDecoration(
-                                 borderRadius: BorderRadius.circular(20),
-                                 color: Colors.grey[350]
+                           InkWell(
+                             child: pathImage == '' ? Container(
+                               width: getDeviceWidth*0.4,
+                               height: getDeviceWidth*0.43,
+                               decoration: BoxDecoration(
+                                   borderRadius: BorderRadius.circular(20),
+                                   color: Colors.grey[350]
+                               ),
+                               child: Icon(
+                                 Icons.file_upload_outlined,
+                                 size: getDeviceWidth*0.3,
+                                 color: Colors.white,
+                               ),
+                             ) : Container(
+                               width: getDeviceWidth * 0.4,
+                               height: getDeviceWidth * 0.438,
+                               decoration: BoxDecoration(
+                                   borderRadius: BorderRadius.circular(20),
+                                   color: Colors.grey[350],
+                                   image: DecorationImage(
+                                     image: AssetImage(pathImage),
+                                     fit: BoxFit.cover,
+                                   )
+                               ),
                              ),
-                             child: Icon(
-                               Icons.file_upload_outlined,
-                               size: getDeviceWidth*0.3,
-                               color: Colors.white,
-                             ),
+                             onTap: (){
+                               _showImagePicker();
+                             },
                            ),
                            const SizedBox(height: 10,),
                          ],
@@ -175,7 +264,7 @@ class _AddPetPageState extends State<AddPetPage> {
                      child: OutlinedButton(
                          onPressed: (){
                            Pet.petDataList.add(Pet(
-                             pathImage: 'assets/bulldogPet.png',
+                             pathImage: pathImage,
                              aboutMe: aboutMeInput.text,
                              age: ageInput.text,
                              animal: selectedAnimals.first,

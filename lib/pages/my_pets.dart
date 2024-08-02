@@ -106,8 +106,17 @@ class _MyPetsPageState extends State<MyPetsPage> {
                   right:0,
                   top: 0,
                   child: Container(
+                    width: 45,
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(1),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.8), // Shadow color
+                          blurRadius: 10.0, // Shadow blur radius
+                          offset: const Offset(0, 4), // Shadow offset
+                          spreadRadius: 2.0, // Shadow spread radius
+                        ),
+                      ],
                       shape: BoxShape.circle,
                     ),
                     child: IconButton(
@@ -141,7 +150,7 @@ class _MyPetsPageState extends State<MyPetsPage> {
               children: [
                 IconButton(
                   onPressed: () => {
-                    Navigator.pop(context)
+                    Navigator.pushReplacementNamed(context, "/profile")
                   },
                   icon: const Icon(Icons.arrow_back_ios),
                 ),
