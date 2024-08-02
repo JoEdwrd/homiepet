@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'globals.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -78,9 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                   child: CircleAvatar(
                     radius: 45, // Adjust radius to fit within the container
-                    backgroundImage: AssetImage(
-                      'assets/profile_picture.jpg',
-                    ),
+                    backgroundImage: AssetImage(profileImage),
                   ),
                 ),
               ),
@@ -173,6 +172,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.pushNamed(context, '/login');
+                      setState(() {
+                        profileImage = 'assets/user_temp.jpg'; // Update the global variable
+                      });
                     },
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(MediaQuery.of(context).size.width * 0.8, 40), // Button width and height

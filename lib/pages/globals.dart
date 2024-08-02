@@ -1,0 +1,1 @@
+String profileImage = 'assets/user_temp.jpg';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'globals.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -78,9 +79,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   ),
                   child: CircleAvatar(
                     radius: 45, // Adjust radius to fit within the container
-                    backgroundImage: AssetImage(
-                      'assets/profile_picture.jpg',
-                    ),
+                    backgroundImage: AssetImage(profileImage),
                   ),
                 ),
               ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../component/Pet.dart';
 
@@ -61,17 +60,6 @@ class _EditPetPageState extends State<EditPetPage> {
     selectedBreed = petData.breed;
     selectedCharacters.addAll(petData.characters);
     _imagePath = petData.pathImage;
-  }
-
-  Future<void> _pickImage() async {
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedFile != null) {
-      setState(() {
-        _imagePath = pickedFile.path;
-      });
-    }
   }
 
   @override
@@ -154,7 +142,7 @@ class _EditPetPageState extends State<EditPetPage> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           GestureDetector(
-                            onTap: _pickImage,
+                            // onTap: ,
                             child: Container(
                               width: getDeviceWidth * 0.4,
                               height: getDeviceWidth * 0.438,
