@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'dart:io';
+import 'globals.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -13,7 +11,7 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   int _selectedIndex = 2;
-  File? _image;
+  String _profileImage = 'assets/user_temp.jpg';
 
   void _onIconTapped(int index) {
     setState(() {
@@ -33,61 +31,108 @@ class _EditProfilePageState extends State<EditProfilePage> {
     }
   }
 
-  Future<void> _pickImage() async {
-    final photoStatus = await Permission.photos.request();
-    final cameraStatus = await Permission.camera.request();
-
-    if (photoStatus.isGranted && cameraStatus.isGranted) {
-      final ImagePicker picker = ImagePicker();
-      try {
-        final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-        if (image != null) {
-          setState(() {
-            _image = File(image.path);
-            print("Image picked: ${image.path}"); // Debugging output
-          });
-        }
-      } catch (e) {
-        print("Error picking image: $e");
-      }
-    } else {
-      print("Permission denied");
-    }
+  void _showImagePicker() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Select a Profile Picture'),
+          content: SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      _buildImageOption('assets/profile_picture.jpg'),
+                      Spacer(),
+                      _buildImageOption('assets/profile_picture2.jpg'),
+                    ],
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      _buildImageOption('assets/profile_picture3.png'),
+                      Spacer(),
+                      _buildImageOption('assets/profile_picture4.png'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Cancel'),
+            ),
+          ],
+        );
+      },
+    );
   }
+
+  Widget _buildImageOption(String imagePath) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          profileImage = imagePath; // Update the global variable
+        });
+        Navigator.of(context).pop();
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Image.asset(
+          imagePath,
+          width: 90,
+          height: 90,
+          fit: BoxFit.cover,
+        ),
+      ),
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(130.0), // Increase the height
+        preferredSize: Size.fromHeight(170.0), // Increase the height
         child: Stack(
           clipBehavior: Clip.none, // Allow the profile picture to overflow
           children: [
-            ClipRRect(
-              borderRadius: BorderRadius.vertical(
-                bottom: Radius.circular(30), // Add radius to the bottom
-              ),
-              child: AppBar(
-                backgroundColor: Color(0xffFEAA38),
-                automaticallyImplyLeading: false, // Disable the default leading behavior
-                title: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: Image.asset(
-                          'assets/appbarlogo.png',
-                          width: 180,
+            Container(
+              margin: EdgeInsets.only(bottom: 40),
+              child: ClipRRect(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(30), // Add radius to the bottom
+                ),
+                child: AppBar(
+                  backgroundColor: Color(0xffFEAA38),
+                  automaticallyImplyLeading: false, // Disable the default leading behavior
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: Center(
+                          child: Image.asset(
+                            'assets/appbarlogo.png',
+                            width: 180,
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
             Positioned(
-              bottom: -55, // Adjust this value as needed to control overlap
+              bottom: -15, // Adjust this value as needed to control overlap
               left: 0, // Reset left positioning
               right: 0, // Reset right positioning
               child: Align(
@@ -106,33 +151,31 @@ class _EditProfilePageState extends State<EditProfilePage> {
                       ),
                       child: CircleAvatar(
                         radius: 45, // Adjust radius to fit within the container
-                        backgroundImage: _image == null
-                            ? AssetImage('assets/profile_picture.jpg') as ImageProvider
-                            : FileImage(_image!),
+                        backgroundImage: AssetImage(profileImage),
                       ),
                     ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Color(0xffFEAA38), // Button background color
-                        ),
-                        child: IconButton(
-                          icon: Icon(Icons.camera_alt_outlined),
-                          color: Colors.black, // Icon color
-                          iconSize: 20, // Adjust icon size as needed
-                          padding: EdgeInsets.all(3),
-                          onPressed: () {
-                            _pickImage();
-                          },
-                        ),
-                      ),
-                    )
                   ],
+                ),
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              right: 150,
+              child: Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Color(0xffFEAA38), // Button background color
+                ),
+                child: IconButton(
+                  icon: Icon(Icons.camera_alt_outlined),
+                  color: Colors.black, // Icon color
+                  iconSize: 20, // Adjust icon size as needed
+                  padding: EdgeInsets.all(3),
+                  onPressed: () {
+                    _showImagePicker(); // Correct method call
+                  },
                 ),
               ),
             ),
@@ -144,7 +187,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
           Align(
             alignment: Alignment.topCenter, // Position the Stack towards the top
             child: Padding(
-              padding: const EdgeInsets.only(top: 120.0), // Adjust this value as needed
+              padding: const EdgeInsets.only(top: 80.0), // Adjust this value as needed
               child: Column(
                 children: [
                   Stack(
