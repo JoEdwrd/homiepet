@@ -31,6 +31,39 @@ class _MyPetsPageState extends State<MyPetsPage> {
     }
   }
 
+  void _deletePet(Pet pet) {
+    setState(() {
+      Pet.petDataList.remove(pet);
+    });
+  }
+
+  void _showDeleteConfirmationDialog(BuildContext context, Pet pet) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Delete ${pet.name}?'),
+          content: const Text('Are you sure you want to delete this pet?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () {
+                _deletePet(pet);
+                Navigator.of(context).pop();
+              },
+              child: const Text('Delete'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   void dispose() {
     _scrollController.dispose();
@@ -42,43 +75,64 @@ class _MyPetsPageState extends State<MyPetsPage> {
     double getDeviceHeight = MediaQuery.of(context).size.height;
     double getDeviceWidth = MediaQuery.of(context).size.width;
 
-    Widget myPetCard(String pathImage, String petName, String petAge, String animal, String breed, List<String> characters, String aboutMe, String lookingFor) {
+    Widget myPetCard(Pet pet) {
       return InkWell(
-        onTap: (){
+        onTap: () {
           Navigator.pushNamed(
             context,
             '/detailPet',
-            arguments: Pet(
-              name: petName,
-              age: petAge,
-              animal: animal,
-              breed: breed,
-              characters: characters,
-              aboutMe: aboutMe,
-              lookingFor: lookingFor,
-              pathImage: pathImage,
-            ),
+            arguments: pet,
           );
         },
         child: Column(
           children: [
-            Card(
-              semanticContainer: true,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(35.0),
-              ),
-              elevation: 7,
-              child: Image.asset(
-                pathImage,
-                width: getDeviceWidth * 0.35,
-                height: getDeviceHeight * 0.16,
-                fit: BoxFit.cover,
-              ),
+            Stack(
+              children: [
+                Card(
+                  semanticContainer: true,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(35.0),
+                  ),
+                  elevation: 7,
+                  child: Image.asset(
+                    pet.pathImage,
+                    width: getDeviceWidth * 0.35,
+                    height: getDeviceHeight * 0.16,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                Positioned(
+                  right:0,
+                  top: 0,
+                  child: Container(
+                    width: 45,
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(1),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.8), // Shadow color
+                          blurRadius: 10.0, // Shadow blur radius
+                          offset: const Offset(0, 4), // Shadow offset
+                          spreadRadius: 2.0, // Shadow spread radius
+                        ),
+                      ],
+                      shape: BoxShape.circle,
+                    ),
+                    child: IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.orange),
+                      iconSize: 30,
+                      onPressed: () {
+                        _showDeleteConfirmationDialog(context, pet);
+                      },
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 8),
             Text(
-              petName,
+              pet.name,
               style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
           ],
@@ -96,7 +150,7 @@ class _MyPetsPageState extends State<MyPetsPage> {
               children: [
                 IconButton(
                   onPressed: () => {
-                    Navigator.pop(context)
+                    Navigator.pushReplacementNamed(context, "/profile")
                   },
                   icon: const Icon(Icons.arrow_back_ios),
                 ),
@@ -129,17 +183,8 @@ class _MyPetsPageState extends State<MyPetsPage> {
                       spacing: 34,
                       runSpacing: 30,
                       children: Pet.petDataList.map((pet) {
-                        return myPetCard(
-                                pet.pathImage,
-                                pet.name,
-                                pet.age,
-                                pet.animal,
-                                pet.breed,
-                                pet.characters,
-                                pet.aboutMe,
-                                pet.lookingFor,
-                              );
-                            }).toList(),
+                        return myPetCard(pet);
+                      }).toList(),
                     ),
                     const SizedBox(height: 150), // Add padding to avoid overlapping with the sticky bar
                   ],
@@ -241,4 +286,3 @@ class _MyPetsPageState extends State<MyPetsPage> {
     );
   }
 }
-

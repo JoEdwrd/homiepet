@@ -11,7 +11,6 @@ class EditProfilePage extends StatefulWidget {
 
 class _EditProfilePageState extends State<EditProfilePage> {
   int _selectedIndex = 2;
-  String _profileImage = 'assets/user_temp.jpg';
 
   void _onIconTapped(int index) {
     setState(() {

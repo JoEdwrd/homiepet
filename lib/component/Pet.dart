@@ -42,10 +42,10 @@ class Pet{
     ),
 
     Pet(
-      name: 'Whiskers',
-      animal: 'Cat',
-      breed: 'Siamese',
-      age: '1 year',
+      name: 'Cumau',
+      animal: 'Dog',
+      breed: 'Golden Retriever',
+      age: '5 year',
       aboutMe: 'Calm and affectionate',
       lookingFor: 'A quiet home',
       pathImage: 'assets/dogPet2.png',
@@ -53,10 +53,10 @@ class Pet{
     ),
 
     Pet(
-      name: 'Whiskers',
+      name: 'Colab',
       animal: 'Cat',
-      breed: 'Siamese',
-      age: '1 year',
+      breed: 'Persia',
+      age: '10 months',
       aboutMe: 'Calm and affectionate',
       lookingFor: 'A quiet home',
       pathImage: 'assets/dogPet2.png',
