@@ -89,7 +89,13 @@ class _HomePageState extends State<HomePage> {
       'looking_for': "An adventurous person who loves exploring new places and activities."
     },
   ];
+  bool _isVisible = true;
 
+  void _toggleVisibility() {
+    setState(() {
+      _isVisible = !_isVisible;
+    });
+  }
   @override
   void initState() {
     super.initState();
@@ -233,6 +239,22 @@ class _HomePageState extends State<HomePage> {
                   print('Card $index swiped back');
                 },
                 onEnd: () {
+                  _toggleVisibility();
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title: Text('Limit Reached'),
+                      content: Text('You have reached the swipe limit'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text('OK'),
+                        ),
+                      ],
+                    ),
+                  );
                   print('End of cards');
                 },
               ),
@@ -240,60 +262,61 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 80.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            FloatingActionButton(
-              onPressed: () {
-                _controller.forward(direction: SwipDirection.Left);
-                print('Card rejected');
-              },
-              backgroundColor: Colors.red,
-              child: Icon(
-                Icons.close,
-                color: Colors.white,
+      floatingActionButton: Visibility(visible: _isVisible,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 80.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              FloatingActionButton(
+                onPressed: () {
+                  _controller.forward(direction: SwipDirection.Left);
+                  print('Card rejected');
+                },
+                backgroundColor: Colors.red,
+                child: Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
+                shape: CircleBorder(),
               ),
-              shape: CircleBorder(),
-            ),
-            Container(
-              height: 75,
-              width: 75,
-              child: FittedBox(
-                child: FloatingActionButton(
-                  onPressed: () {
-                    final pet = pets[_controller.index];
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => PetDetailPage(pet: pet),
-                      ),
-                    );
-                  },
-                  backgroundColor: Colors.blue,
-                  child: Icon(
-                    Icons.info,
-                    color: Colors.white,
+              Container(
+                height: 75,
+                width: 75,
+                child: FittedBox(
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      final pet = pets[_controller.index];
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PetDetailPage(pet: pet),
+                        ),
+                      );
+                    },
+                    backgroundColor: Colors.blue,
+                    child: Icon(
+                      Icons.info,
+                      color: Colors.white,
+                    ),
+                    shape: CircleBorder(),
                   ),
-                  shape: CircleBorder(),
                 ),
               ),
-            ),
-            FloatingActionButton(
-              onPressed: () {
-                _controller.forward(direction: SwipDirection.Right);
-                print('Card liked');
-              },
-              backgroundColor: Colors.orange,
-              child: Icon(
-                Icons.favorite,
-                color: Colors.white,
+              FloatingActionButton(
+                onPressed: () {
+                  _controller.forward(direction: SwipDirection.Right);
+                  print('Card liked');
+                },
+                backgroundColor: Colors.orange,
+                child: Icon(
+                  Icons.favorite,
+                  color: Colors.white,
+                ),
+                shape: CircleBorder(),
               ),
-              shape: CircleBorder(),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
