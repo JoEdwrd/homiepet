@@ -9,11 +9,36 @@ class Conversation extends StatefulWidget {
 
 class _Conversation extends State<Conversation> {
   final List<Map<String, dynamic>> conversations = [
-    {'name': 'Ziven', 'message': 'Yes, he will happy to see ...', 'time': '20m', 'avatar': 'assets/ziven.png'},
-    {'name': 'Jelly', 'message': 'What\'s up?', 'time': '45m', 'avatar': 'assets/jelly.png'},
-    {'name': 'Archie', 'message': 'Archie is very energetic', 'time': '2h', 'avatar': 'assets/archie.png'},
-    {'name': 'Lucky', 'message': 'Of course', 'time': '1d', 'avatar': 'assets/lucky.png'},
-    {'name': 'Joel', 'message': 'Joel is here', 'time': '3d', 'avatar': 'assets/joel.png'},
+    {
+      'name': 'Ziven',
+      'message': 'Yes, he will happy to see ...',
+      'time': '20m',
+      'avatar': 'assets/ziven.png'
+    },
+    {
+      'name': 'Jelly',
+      'message': 'What\'s up?',
+      'time': '45m',
+      'avatar': 'assets/jelly.png'
+    },
+    {
+      'name': 'Archie',
+      'message': 'Archie is very energetic',
+      'time': '2h',
+      'avatar': 'assets/archie.png'
+    },
+    {
+      'name': 'Lucky',
+      'message': 'Of course',
+      'time': '1d',
+      'avatar': 'assets/lucky.png'
+    },
+    {
+      'name': 'Joel',
+      'message': 'Joel is here',
+      'time': '3d',
+      'avatar': 'assets/joel.png'
+    },
   ];
 
   final Map<String, List<Map<String, dynamic>>> userMessages = {
@@ -21,15 +46,27 @@ class _Conversation extends State<Conversation> {
       {'text': 'Hello', 'isUserMessage': true, 'time': '3:00PM'},
       {'text': 'Yes', 'isUserMessage': false, 'time': '3:00PM'},
       {'text': 'Can I pet him?', 'isUserMessage': true, 'time': '3:00PM'},
-      {'text': 'Yes, he will be happy to see you', 'isUserMessage': false, 'time': '3:00PM'},
+      {
+        'text': 'Yes, he will be happy to see you',
+        'isUserMessage': false,
+        'time': '3:00PM'
+      },
     ],
     'Jelly': [
       {'text': 'Hey Jelly!', 'isUserMessage': true, 'time': '4:00PM'},
       {'text': 'What\'s up?', 'isUserMessage': false, 'time': '4:05PM'},
     ],
     'Archie': [
-      {'text': 'Hey! how is archie personality?', 'isUserMessage': true, 'time': '4:00PM'},
-      {'text': 'Archie is very energetic', 'isUserMessage': false, 'time': '4:05PM'},
+      {
+        'text': 'Hey! how is archie personality?',
+        'isUserMessage': true,
+        'time': '4:00PM'
+      },
+      {
+        'text': 'Archie is very energetic',
+        'isUserMessage': false,
+        'time': '4:05PM'
+      },
     ],
     'Lucky': [
       {'text': 'Can i adopt lucky?', 'isUserMessage': true, 'time': '4:00PM'},
@@ -81,7 +118,7 @@ class _Conversation extends State<Conversation> {
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),  // This sets the color for the icon in the app bar
+        iconTheme: IconThemeData(color: Colors.black),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,10 +149,12 @@ class _Conversation extends State<Conversation> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChatPage(
-                          conversation: conversations[index],
-                          messages: userMessages[conversations[index]['name']] ?? [],
-                        ),
+                        builder: (context) =>
+                            ChatPage(
+                              conversation: conversations[index],
+                              messages: userMessages[conversations[index]['name']] ??
+                                  [],
+                            ),
                       ),
                     );
                   },
@@ -123,54 +162,59 @@ class _Conversation extends State<Conversation> {
               },
             ),
           ),
-          Spacer(), // Pushes the navigation bar to the bottom
           Container(
             padding: EdgeInsets.symmetric(vertical: 15),
             decoration: BoxDecoration(
               color: Colors.white,
-              // border: Border(
-              //   top: BorderSide(color: Colors.black.withOpacity(0.1), width: 1),
-              // ),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Container(
                   decoration: BoxDecoration(
-                      border: Border(
-                        bottom: _selectedIndex == 0 ? BorderSide(color: Color(0xffB51313), width: 2) : BorderSide(color: Colors.transparent),
-                      )
+                    border: Border(
+                      bottom: _selectedIndex == 0 ? BorderSide(
+                          color: Color(0xffB51313), width: 2) : BorderSide(
+                          color: Colors.transparent),
+                    ),
                   ),
                   child: IconButton(
                     onPressed: () => _onIconTapped(0),
                     icon: Icon(LineAwesomeIcons.sms_solid),
-                    color: _selectedIndex == 0 ? Color(0xffB51313) : Colors.grey,
+                    color: _selectedIndex == 0 ? Color(0xffB51313) : Colors
+                        .grey,
                     iconSize: 40,
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      border: Border(
-                        bottom: _selectedIndex == 1 ? BorderSide(color: Color(0xffB51313), width: 2) : BorderSide(color: Colors.transparent),
-                      )
+                    border: Border(
+                      bottom: _selectedIndex == 1 ? BorderSide(
+                          color: Color(0xffB51313), width: 2) : BorderSide(
+                          color: Colors.transparent),
+                    ),
                   ),
                   child: IconButton(
                     onPressed: () => _onIconTapped(1),
                     icon: Icon(LineAwesomeIcons.paw_solid),
-                    color: _selectedIndex == 1 ? Color(0xffB51313) : Colors.grey,
+                    color: _selectedIndex == 1 ? Color(0xffB51313) : Colors
+                        .grey,
                     iconSize: 40,
                   ),
                 ),
                 Container(
                   decoration: BoxDecoration(
-                      border: Border(
-                        bottom: _selectedIndex == 2 ? BorderSide(color: Color(0xffB51313), width: 2) : BorderSide(color: Colors.transparent),
-                      )
+                    border: Border(
+                      bottom: _selectedIndex == 2 ? BorderSide(
+                          color: Color(0xffB51313), width: 2) : BorderSide(
+                          color: Colors.transparent),
+                    ),
                   ),
                   child: IconButton(
                     onPressed: () => _onIconTapped(2),
                     icon: Icon(LineAwesomeIcons.user_solid),
-                    color: _selectedIndex == 2 ? Color(0xffB51313) : Colors.grey,
+                    color: _selectedIndex == 2 ? Color(0xffB51313) : Colors
+                        .grey,
                     iconSize: 40,
                   ),
                 ),
@@ -182,3 +226,4 @@ class _Conversation extends State<Conversation> {
     );
   }
 }
+
